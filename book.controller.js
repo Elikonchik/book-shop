@@ -19,9 +19,9 @@ function render() {
                 <td>${book.title}</td>
                 <td>${book.price}</td>
                 <td>
-                    <button class="read">Read</button>
-                    <button class="update">Update</button>
-                    <button class="delete">Delete</button>
+                    <button class="read" onclick="read">Read</button>
+                    <button class="update" onclick= "update">Update</button>
+                    <button class="delete" onclick="onRemoveBook('${book.id}')">Delete</button>
                 </td>
             </tr>
         `
@@ -31,3 +31,9 @@ function render() {
 }
 
 onInit()
+
+function onRemoveBook(bookId) {
+
+    removeBook(bookId)
+    render()
+}
