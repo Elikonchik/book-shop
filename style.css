@@ -3,7 +3,15 @@
 }
 
 body {
-    margin: 0;
+    margin: 0 auto 15px;
+    justify-items: center;
+}
+
+.addBookBtn {
+    background-color: bisque;
+
+    display: block;
+    margin: 20px;
 }
 
 table {

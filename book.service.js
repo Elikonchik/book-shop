@@ -39,3 +39,15 @@ function updatePrice(bookId, newPrice) {
 
     gBooks[bookIdx].price = newPrice
 }
+
+function addBook(id, title, price) {
+
+    const newBook = {
+        id: id,
+        title: title,
+        price: price,
+        imgUrl: `${title}.jpg`
+    }
+
+    gBooks.push(newBook)
+}
