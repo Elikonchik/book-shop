@@ -30,5 +30,12 @@ function removeBook(bookId) {
     const bookIdx = gBooks.findIndex(book => book.id === bookId)
 
     // console.log(bookIdx)
-    gBooks.splice(bookId, 1)
+    gBooks.splice(bookIdx, 1)
+}
+
+function updatePrice(bookId, newPrice) {
+
+    const bookIdx = gBooks.findIndex(book => book.id === bookId)
+
+    gBooks[bookIdx].price = newPrice
 }
