@@ -8,19 +8,22 @@ const gDemoBooks = [
         id: 'bg4J78',
         title: 'The adventures of Lori Ipsi',
         price: 120,
-        imgUrl: 'lori-ipsi.jpg'
+        imgUrl: 'lori-ipsi.jpg',
+        rating: 0
     },
     {
         id: 'bg4J79',
         title: 'World atlas',
         price: 300,
-        imgUrl: 'World atlas.jpg'
+        imgUrl: 'World atlas.jpg',
+        rating: 0
     },
     {
         id: 'bg4J80',
         title: 'Zorba the greek',
         price: 87,
-        imgUrl: 'Zorba the greek.jpg'
+        imgUrl: 'Zorba the greek.jpg',
+        rating: 0
     }
 ]
 
@@ -60,7 +63,8 @@ function addBook(id, title, price) {
         id: id,
         title: title,
         price: price,
-        imgUrl: `${title}.jpg`
+        imgUrl: `${title}.jpg`,
+        rating: 0
     }
 
     gBooks.push(newBook)
@@ -120,4 +124,15 @@ function setLayout(layout) {
 
 function getLayout() {
     return loadFromStorage(LAYOUT_KEY) || 'table'
+}
+
+function updateRating(bookId, rating) {
+
+    const bookIdx = gBooks.findIndex(function (book) {
+        return book.id === bookId
+    })
+
+    gBooks[bookIdx].rating = rating
+
+    _saveBooks()
 }

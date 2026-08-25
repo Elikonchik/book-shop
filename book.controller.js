@@ -112,6 +112,13 @@ function onShowDetails(bookId) {
         <img src="${book.imgUrl}" alt="${book.title}">
         <h2>${book.title}</h2>
         <p>Price: ${book.price}</p>
+        <p>Rating: ${book.rating}</p>
+
+<div class="rating">
+    <button onclick="onChangeRating('${book.id}', -1)">−</button>
+    <span>${book.rating}</span>
+    <button onclick="onChangeRating('${book.id}', 1)">+</button>
+</div>
     `
 
     elModal.style.display = 'block'
@@ -193,4 +200,18 @@ function onCloseAddModal() {
     document.querySelector('.book-price-input').value = ''
 
     document.querySelector('.add-error-msg').innerText = ''
+}
+
+function onChangeRating(bookId, change) {
+
+    const book = getBookById(bookId)
+
+    let newRating = book.rating + change
+
+    if (newRating < 0) newRating = 0
+    if (newRating > 5) newRating = 5
+
+    updateRating(bookId, newRating)
+
+    onShowDetails(bookId)
 }
