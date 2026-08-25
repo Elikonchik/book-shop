@@ -27,6 +27,15 @@ function render(books = getBooks()) {
 
     elTbody.innerHTML = strHTML
 
+    if (!books.length) {
+        elTbody.innerHTML = `
+        <tr>
+            <td colspan="3">No matching books were found</td>
+        </tr>
+    `
+        return
+    }
+
     const stats = getBookStats()
 
     document.querySelector('.expensive-count').innerText = stats.expensive
