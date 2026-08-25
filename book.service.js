@@ -25,8 +25,13 @@ const gDemoBooks = [
 
 let gBooks = []
 
-function getBooks() {
-    return gBooks
+function getBooks(filterBy = '') {
+
+    const filteredBooks = gBooks.filter(function (book) {
+        return book.title.toLowerCase().includes(filterBy.toLowerCase())
+    })
+
+    return filteredBooks
 }
 
 function removeBook(bookId) {

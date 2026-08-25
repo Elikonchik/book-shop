@@ -12,6 +12,10 @@
 
     <button class="addBookBtn" onclick="onAddBook()">Add a new book!</button>
 
+    <input type="text" placeholder="Search by title" oninput="onFilterByTitle(this.value)">
+
+    <button onclick="onClearFilter()">Clear</button>
+
     <table>
         <thead>
             <tr>

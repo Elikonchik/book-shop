@@ -4,9 +4,7 @@ function onInit() {
     render()
 }
 
-function render() {
-
-    const books = getBooks()
+function render(books = getBooks()) {
 
     const elTbody = document.querySelector('tbody')
 
@@ -76,4 +74,16 @@ function onShowDetails(bookId) {
 
 function onCloseModal() {
     document.querySelector('.book-details-modal').style.display = 'none'
+}
+
+function onFilterByTitle(txt) {
+    const books = getBooks(txt)
+    render(books)
+}
+
+function onClearFilter() {
+
+    document.querySelector('input').value = ''
+
+    render()
 }
