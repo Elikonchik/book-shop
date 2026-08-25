@@ -106,3 +106,11 @@ button {
 .book-details h2 {
     margin: 10px 0;
 }
+
+.success-msg {
+    font-size: 15px;
+    font-weight: bold;
+    color: blue;
+    
+    padding: 10px;
+}
