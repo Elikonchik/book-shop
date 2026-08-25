@@ -76,17 +76,27 @@ function onUpdateBook(bookId) {
 
 function onAddBook() {
 
-    const newBookId = getNewId()
-    const newBookTitle = prompt(`Enter the book's title`)
-    const newBookPrice = +prompt(`Enter the book's price`)
+    document.querySelector('.add-book-modal').style.display = 'block'
+}
 
-    if (!newBookTitle || !newBookPrice) {
-        alert(`Can't keep blank!`)
+function onSaveBook() {
+
+    const title = document.querySelector('.book-title-input').value
+    const price = +document.querySelector('.book-price-input').value
+
+    if (!title || !price) {
+        document.querySelector('.add-error-msg').innerText =
+            "Title and price are required!"
         return
     }
 
-    addBook(newBookId, newBookTitle, newBookPrice)
+    const id = getNewId()
+
+    addBook(id, title, price)
+
     render()
+
+    onCloseAddModal()
 
     showSuccessMsg('Book added successfully!')
 }
@@ -173,4 +183,14 @@ function renderGrid(books) {
     })
 
     elGrid.innerHTML = strHTML
+}
+
+function onCloseAddModal() {
+
+    document.querySelector('.add-book-modal').style.display = 'none'
+
+    document.querySelector('.book-title-input').value = ''
+    document.querySelector('.book-price-input').value = ''
+
+    document.querySelector('.add-error-msg').innerText = ''
 }

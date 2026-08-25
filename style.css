@@ -156,3 +156,19 @@ body.grid .books-table {
 body.grid .books-grid {
     display: grid;
 }
+
+.add-book-modal {
+    display: none;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    background-color: rgb(223, 222, 222);
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 20px;
+
+    text-align: center;
+}
