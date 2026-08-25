@@ -56,8 +56,12 @@ function onAddBook() {
     const newBookTitle = prompt(`Enter the book's title`)
     const newBookPrice = +prompt(`Enter the book's price`)
 
-    addBook(newBookId, newBookTitle, newBookPrice)
+    if (!newBookTitle || !newBookPrice) {
+        alert(`Can't keep blank!`)
+        return
+    }
 
+    addBook(newBookId, newBookTitle, newBookPrice)
     render()
 
     showSuccessMsg('Book added successfully!')
