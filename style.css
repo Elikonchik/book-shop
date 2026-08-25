@@ -67,5 +67,42 @@ button {
 }
 
 .book-details-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    background-color: rgb(223, 222, 222);
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 20px;
+
+    min-width: 300px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+
+    justify-content: center;
+    text-align: center;
+
     display: none;
+}
+
+.book-details {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    text-align: center;
+}
+
+.close {
+    background-color: bisque;
+    margin: 10px;
+}
+
+.book-details img {
+    width: 150px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.book-details h2 {
+    margin: 10px 0;
 }

@@ -65,7 +65,11 @@ function onShowDetails(bookId) {
     const elModal = document.querySelector('.book-details-modal')
     const elDetails = document.querySelector('.book-details')
 
-    elDetails.innerText = JSON.stringify(book, null, 2)
+    elDetails.innerHTML = `
+        <img src="${book.imgUrl}" alt="${book.title}">
+        <h2>${book.title}</h2>
+        <p>Price: ${book.price}</p>
+    `
 
     elModal.style.display = 'block'
 }
