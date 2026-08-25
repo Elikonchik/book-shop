@@ -51,3 +51,10 @@ function addBook(id, title, price) {
 
     gBooks.push(newBook)
 }
+
+function getBookById(bookId) {
+
+    return gBooks.find(function (book) {
+        return book.id === bookId
+    })
+}

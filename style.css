@@ -65,3 +65,7 @@ button {
     background-color: rgb(250, 175, 37);
     border-color: rgb(128, 78, 3);
 }
+
+.book-details-modal {
+    display: none;
+}
