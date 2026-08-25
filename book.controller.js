@@ -26,6 +26,12 @@ function render(books = getBooks()) {
     })
 
     elTbody.innerHTML = strHTML
+
+    const stats = getBookStats()
+
+    document.querySelector('.expensive-count').innerText = stats.expensive
+    document.querySelector('.average-count').innerText = stats.average
+    document.querySelector('.cheap-count').innerText = stats.cheap
 }
 
 onInit()

@@ -111,6 +111,18 @@ button {
     font-size: 15px;
     font-weight: bold;
     color: blue;
-    
+
     padding: 10px;
+}
+
+.stats {
+    background-color: bisque;
+    display: flex;
+    justify-content: space-around;
+    padding: 15px;
+
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
 }

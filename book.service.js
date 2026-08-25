@@ -91,3 +91,24 @@ loadBooks()
 function _saveBooks() {
     saveToStorage(STORAGE_KEY, gBooks)
 }
+
+function getBookStats() {
+
+    return gBooks.reduce(function (stats, book) {
+
+        if (book.price > 200) {
+            stats.expensive++
+        } else if (book.price >= 80) {
+            stats.average++
+        } else {
+            stats.cheap++
+        }
+
+        return stats
+
+    }, {
+        expensive: 0,
+        average: 0,
+        cheap: 0
+    })
+}
