@@ -1,6 +1,13 @@
 'use strict'
 
 function onInit() {
+
+    const layout = getLayout()
+
+    if (layout === 'grid') {
+        document.body.classList.add('grid')
+    }
+
     render()
 }
 
@@ -29,10 +36,10 @@ function render(books = getBooks()) {
 
     if (!books.length) {
         elTbody.innerHTML = `
-        <tr>
-            <td colspan="3">No matching books were found</td>
-        </tr>
-    `
+            <tr>
+                <td colspan="3">No matching books were found</td>
+            </tr>
+        `
         return
     }
 
@@ -41,6 +48,8 @@ function render(books = getBooks()) {
     document.querySelector('.expensive-count').innerText = stats.expensive
     document.querySelector('.average-count').innerText = stats.average
     document.querySelector('.cheap-count').innerText = stats.cheap
+
+    renderGrid(books)
 }
 
 onInit()
@@ -123,4 +132,45 @@ function showSuccessMsg(msg) {
     setTimeout(function () {
         elMsg.innerText = ''
     }, 2000)
+}
+
+function onSetLayout(layout) {
+
+    setLayout(layout)
+
+    if (layout === 'grid') {
+        document.body.classList.add('grid')
+    } else {
+        document.body.classList.remove('grid')
+    }
+
+    render()
+}
+
+function renderGrid(books) {
+
+    const elGrid = document.querySelector('.books-grid')
+
+    let strHTML = ''
+
+    books.forEach(function (book) {
+
+        strHTML += `
+            <div class="book-card">
+
+                <img src="${book.imgUrl}" alt="${book.title}">
+
+                <h2>${book.title}</h2>
+
+                <p>Price: ${book.price}</p>
+
+                <button class="read" onclick="onShowDetails('${book.id}')">Read</button>
+                <button class="update" onclick="onUpdateBook('${book.id}')">Update</button>
+                <button class="delete" onclick="onRemoveBook('${book.id}')">Delete</button>
+
+            </div>
+        `
+    })
+
+    elGrid.innerHTML = strHTML
 }

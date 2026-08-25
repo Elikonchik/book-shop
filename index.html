@@ -16,7 +16,10 @@
 
     <button onclick="onClearFilter()">Clear</button>
 
-    <table>
+    <button onclick="onSetLayout('table')">Table</button>
+    <button onclick="onSetLayout('grid')">Grid</button>
+
+    <table class="books-table">
         <thead>
             <tr>
                 <th>Title</th>
@@ -27,6 +30,8 @@
 
         <tbody></tbody>
     </table>
+
+    <div class="books-grid"></div>
 
     <div class="book-details-modal">
         <button class="close" onclick="onCloseModal()">Close</button>

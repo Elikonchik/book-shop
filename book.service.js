@@ -1,6 +1,7 @@
 'use strict'
 
 const STORAGE_KEY = 'books'
+const LAYOUT_KEY = 'layout'
 
 const gDemoBooks = [
     {
@@ -111,4 +112,12 @@ function getBookStats() {
         average: 0,
         cheap: 0
     })
+}
+
+function setLayout(layout) {
+    saveToStorage(LAYOUT_KEY, layout)
+}
+
+function getLayout() {
+    return loadFromStorage(LAYOUT_KEY) || 'table'
 }

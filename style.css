@@ -126,3 +126,33 @@ button {
     left: 0;
     width: 100%;
 }
+
+.books-table {
+    display: table;
+}
+
+.books-grid {
+    display: none;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.book-card {
+    border: 2px solid black;
+    padding: 15px;
+    text-align: center;
+}
+
+.book-card img {
+    width: 150px;
+    height: 200px;
+    object-fit: cover;
+}
+
+body.grid .books-table {
+    display: none;
+}
+
+body.grid .books-grid {
+    display: grid;
+}
