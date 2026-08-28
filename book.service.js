@@ -38,10 +38,13 @@ const gDemoBooks = [
 
 let gBooks = []
 
-function getBooks(filterBy = '') {
+function getBooks(filterBy = { title: '', minRating: 0 }) {
 
     const filteredBooks = gBooks.filter(function (book) {
-        return book.title.toLowerCase().includes(filterBy.toLowerCase())
+
+        return book.title.toLowerCase().includes(filterBy.title.toLowerCase()) &&
+            book.rating >= filterBy.minRating
+
     })
 
     return filteredBooks

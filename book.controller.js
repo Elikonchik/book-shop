@@ -136,7 +136,8 @@ function onFilterByTitle(txt) {
 
 function onClearFilter() {
 
-    document.querySelector('input').value = ''
+    document.querySelector('.title-filter').value = ''
+    document.querySelector('.rating-filter').value = '0'
 
     render()
 }
@@ -217,4 +218,19 @@ function onChangeRating(bookId, change) {
     updateRating(bookId, newRating)
 
     onShowDetails(bookId)
+}
+
+function onFilter() {
+
+    const title = document.querySelector('.title-filter').value
+    const minRating = +document.querySelector('.rating-filter').value
+
+    const filterBy = {
+        title: title,
+        minRating: minRating
+    }
+
+    const books = getBooks(filterBy)
+
+    render(books)
 }
