@@ -38,6 +38,22 @@
 
     <button onclick="onClearFilter()">Clear</button>
 
+    <select class="sort-by" onchange="onSort()">
+        <option value="title">Title</option>
+        <option value="price">Price</option>
+        <option value="rating">Rating</option>
+    </select>
+
+    <label>
+        <input type="radio" name="sort" value="asc" checked onchange="onSort()">
+        Ascending
+    </label>
+
+    <label>
+        <input type="radio" name="sort" value="desc" onchange="onSort()">
+        Descending
+    </label>
+
     <button onclick="onSetLayout('table')">Table</button>
     <button onclick="onSetLayout('grid')">Grid</button>
 

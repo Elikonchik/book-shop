@@ -38,13 +38,24 @@ const gDemoBooks = [
 
 let gBooks = []
 
-function getBooks(filterBy = { title: '', minRating: 0 }) {
+function getBooks(filterBy = { title: '', minRating: 0 }, sortBy = { field: 'title', order: 'asc' }) {
 
     const filteredBooks = gBooks.filter(function (book) {
 
         return book.title.toLowerCase().includes(filterBy.title.toLowerCase()) &&
             book.rating >= filterBy.minRating
+    })
 
+    filteredBooks.sort(function (book1, book2) {
+
+        let val1 = book1[sortBy.field]
+        let val2 = book2[sortBy.field]
+
+        if (sortBy.order === 'asc') {
+            return val1 > val2 ? 1 : -1
+        } else {
+            return val1 < val2 ? 1 : -1
+        }
     })
 
     return filteredBooks

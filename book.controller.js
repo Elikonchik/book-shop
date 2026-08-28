@@ -234,14 +234,22 @@ function onFilter() {
     const title = document.querySelector('.title-filter').value
     const minRating = +document.querySelector('.rating-filter').value
 
+    const field = document.querySelector('.sort-by').value
+    const order = document.querySelector('input[name="sort"]:checked').value
+
     const filterBy = {
         title: title,
         minRating: minRating
     }
 
-    setQueryParams(filterBy)
+    const sortBy = {
+        field: field,
+        order: order
+    }
 
-    const books = getBooks(filterBy)
+    const books = getBooks(filterBy, sortBy)
+
+    setQueryParams(filterBy)
 
     render(books)
 }
@@ -275,4 +283,27 @@ function getFilterFromQueryParams() {
         title: params.get('title') || '',
         minRating: +params.get('minRating') || 0
     }
+}
+
+function onSort() {
+
+    const title = document.querySelector('.title-filter').value
+    const minRating = +document.querySelector('.rating-filter').value
+
+    const field = document.querySelector('.sort-by').value
+    const order = document.querySelector('input[name="sort"]:checked').value
+
+    const filterBy = {
+        title: title,
+        minRating: minRating
+    }
+
+    const sortBy = {
+        field: field,
+        order: order
+    }
+
+    const books = getBooks(filterBy, sortBy)
+
+    render(books)
 }
