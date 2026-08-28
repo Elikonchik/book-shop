@@ -23,6 +23,7 @@ function render(books = getBooks()) {
             <tr>
                 <td>${book.title}</td>
                 <td>${book.price}</td>
+                <td>${getRatingStars(book.rating)}</td>
                 <td>
                     <button class="read" onclick="onShowDetails('${book.id}')">Read</button>
                     <button class="update" onclick="onUpdateBook('${book.id}')">Update</button>
@@ -180,6 +181,8 @@ function renderGrid(books) {
                 <h2>${book.title}</h2>
 
                 <p>Price: ${book.price}</p>
+           
+                <p>Rating: ${getRatingStars(book.rating)}</p>
 
                 <button class="read" onclick="onShowDetails('${book.id}')">Read</button>
                 <button class="update" onclick="onUpdateBook('${book.id}')">Update</button>

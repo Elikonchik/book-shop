@@ -3,27 +3,36 @@
 const STORAGE_KEY = 'books'
 const LAYOUT_KEY = 'layout'
 
+function getRandomRating() {
+    return Math.floor(Math.random() * 6)
+}
+
+function getRatingStars(rating) {
+    if (rating === 0) return 'Unrated'
+    return '⭐'.repeat(rating)
+}
+
 const gDemoBooks = [
     {
         id: 'bg4J78',
         title: 'The adventures of Lori Ipsi',
         price: 120,
         imgUrl: 'lori-ipsi.jpg',
-        rating: 0
+        rating: getRandomRating()
     },
     {
         id: 'bg4J79',
         title: 'World atlas',
         price: 300,
         imgUrl: 'World atlas.jpg',
-        rating: 0
+        rating: getRandomRating()
     },
     {
         id: 'bg4J80',
         title: 'Zorba the greek',
         price: 87,
         imgUrl: 'Zorba the greek.jpg',
-        rating: 0
+        rating: getRandomRating()
     }
 ]
 
@@ -64,7 +73,7 @@ function addBook(id, title, price) {
         title: title,
         price: price,
         imgUrl: `${title}.jpg`,
-        rating: 0
+        rating: getRandomRating()
     }
 
     gBooks.push(newBook)
