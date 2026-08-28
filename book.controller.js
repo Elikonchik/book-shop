@@ -8,7 +8,14 @@ function onInit() {
         document.body.classList.add('grid')
     }
 
-    render()
+    const filterBy = getFilterFromQueryParams()
+
+    document.querySelector('.title-filter').value = filterBy.title
+    document.querySelector('.rating-filter').value = filterBy.minRating
+
+    const books = getBooks(filterBy)
+
+    render(books)
 }
 
 function render(books = getBooks()) {
@@ -139,6 +146,8 @@ function onClearFilter() {
     document.querySelector('.title-filter').value = ''
     document.querySelector('.rating-filter').value = '0'
 
+    history.pushState(null, '', location.pathname)
+
     render()
 }
 
@@ -230,7 +239,40 @@ function onFilter() {
         minRating: minRating
     }
 
+    setQueryParams(filterBy)
+
     const books = getBooks(filterBy)
 
     render(books)
+}
+
+function setQueryParams(filterBy) {
+
+    const params = new URLSearchParams()
+
+    if (filterBy.title) {
+        params.set('title', filterBy.title)
+    }
+
+    if (filterBy.minRating) {
+        params.set('minRating', filterBy.minRating)
+    }
+
+    const queryString = params.toString()
+
+    const newUrl = queryString
+        ? `${location.pathname}?${queryString}`
+        : location.pathname
+
+    history.pushState(null, '', newUrl)
+}
+
+function getFilterFromQueryParams() {
+
+    const params = new URLSearchParams(location.search)
+
+    return {
+        title: params.get('title') || '',
+        minRating: +params.get('minRating') || 0
+    }
 }
