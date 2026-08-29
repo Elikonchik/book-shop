@@ -118,14 +118,14 @@ function updatePrice(bookId, newPrice) {
     _saveBooks()
 }
 
-function addBook(id, title, price) {
+function addBook(id, title, price, rating) {
 
     const newBook = {
         id: id,
         title: title,
         price: price,
-        imgUrl: `default.png`,
-        rating: getRandomRating()
+        imgUrl: `${title}.jpg`,
+        rating: rating
     }
 
     gBooks.push(newBook)
@@ -199,7 +199,7 @@ function updateRating(bookId, rating) {
     _saveBooks()
 }
 
-function updateBook(bookId, title, price) {
+function updateBook(bookId, title, price, rating) {
 
     const book = gBooks.find(function (book) {
         return book.id === bookId
@@ -209,6 +209,7 @@ function updateBook(bookId, title, price) {
 
     book.title = title
     book.price = price
+    book.rating = rating
 
     _saveBooks()
 }

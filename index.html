@@ -20,6 +20,14 @@
 
         <input class="book-price-input" type="number" placeholder="Price">
 
+        <div class="rating">
+            <button type="button" onclick="onChangeEditRating(-1)">−</button>
+
+            <span class="edit-rating">Unrated</span>
+
+            <button type="button" onclick="onChangeEditRating(1)">+</button>
+        </div>
+
         <div class="add-error-msg"></div>
 
         <button onclick="onSaveBook()">Save</button>

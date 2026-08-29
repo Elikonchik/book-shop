@@ -15,6 +15,8 @@ let gQueryOptions = {
 
 let gEditingBookId = null
 
+let gEditingRating = 0
+
 function onInit() {
 
     const layout = getLayout()
@@ -153,9 +155,12 @@ function onUpdateBook(bookId) {
     const book = getBookById(bookId)
 
     gEditingBookId = bookId
+    gEditingRating = book.rating
 
     document.querySelector('.book-title-input').value = book.title
     document.querySelector('.book-price-input').value = book.price
+    document.querySelector('.edit-rating').innerText =
+        getRatingStars(gEditingRating)
 
     document.querySelector('.book-edit-modal').style.display = 'block'
 }
@@ -163,9 +168,11 @@ function onUpdateBook(bookId) {
 function onAddBook() {
 
     gEditingBookId = null
+    gEditingRating = 0
 
     document.querySelector('.book-title-input').value = ''
     document.querySelector('.book-price-input').value = ''
+    document.querySelector('.edit-rating').innerText = 'Unrated'
 
     document.querySelector('.book-edit-modal').style.display = 'block'
 }
@@ -182,11 +189,11 @@ function onSaveBook() {
     }
 
     if (gEditingBookId) {
-        updateBook(gEditingBookId, title, price)
+        updateBook(gEditingBookId, title, price, gEditingRating)
         showSuccessMsg('Book updated successfully!')
     } else {
         const id = getNewId()
-        addBook(id, title, price)
+        addBook(id, title, price, gEditingRating)
         showSuccessMsg('Book added successfully!')
     }
 
@@ -230,6 +237,8 @@ function onCloseEditModal() {
     document.querySelector('.add-error-msg').innerText = ''
 
     gEditingBookId = null
+
+    gEditingRating = 0
 }
 
 function onFilterByTitle(txt) {
@@ -304,6 +313,17 @@ function onChangeRating(bookId, change) {
 
     onShowDetails(bookId)
     render()
+}
+
+function onChangeEditRating(change) {
+
+    gEditingRating += change
+
+    if (gEditingRating < 0) gEditingRating = 0
+    if (gEditingRating > 5) gEditingRating = 5
+
+    document.querySelector('.edit-rating').innerText =
+        getRatingStars(gEditingRating)
 }
 
 function onFilter() {
