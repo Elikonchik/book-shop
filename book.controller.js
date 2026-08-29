@@ -45,7 +45,7 @@ function render(books = getBooks()) {
     if (!books.length) {
         elTbody.innerHTML = `
             <tr>
-                <td colspan="3">No matching books were found</td>
+                <td colspan="4">No matching books were found</td>
             </tr>
         `
         return
@@ -117,17 +117,16 @@ function onShowDetails(bookId) {
     const elDetails = document.querySelector('.book-details')
 
     elDetails.innerHTML = `
-        <img src="${book.imgUrl}" alt="${book.title}">
-        <h2>${book.title}</h2>
-        <p>Price: ${book.price}</p>
-        <p>Rating: ${book.rating}</p>
+    <img src="${book.imgUrl}" alt="${book.title}">
+    <h2>${book.title}</h2>
+    <p>Price: ${book.price}</p>
 
-<div class="rating">
-    <button onclick="onChangeRating('${book.id}', -1)">−</button>
-    <span>${book.rating}</span>
-    <button onclick="onChangeRating('${book.id}', 1)">+</button>
-</div>
-    `
+    <div class="rating">
+        <button onclick="onChangeRating('${book.id}', -1)">−</button>
+        <span>${getRatingStars(book.rating)}</span>
+        <button onclick="onChangeRating('${book.id}', 1)">+</button>
+    </div>
+`
 
     elModal.style.display = 'block'
 }
@@ -227,6 +226,7 @@ function onChangeRating(bookId, change) {
     updateRating(bookId, newRating)
 
     onShowDetails(bookId)
+    render()
 }
 
 function onFilter() {

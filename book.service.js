@@ -12,6 +12,10 @@ function getRatingStars(rating) {
     return '⭐'.repeat(rating)
 }
 
+function getRandomPrice() {
+    return Math.floor(Math.random() * 300) + 20
+}
+
 const gDemoBooks = [
     {
         id: 'bg4J78',
@@ -37,6 +41,40 @@ const gDemoBooks = [
 ]
 
 let gBooks = []
+
+function addDemoBooks() {
+
+    const demoTitles = [
+        'The Hobbit',
+        'Harry Potter',
+        'Harry Potter 2',
+        'Harry Potter 3',
+        'Harry Potter 4',
+        'Harry Potter 5',
+        'Harry Potter 6',
+        'Harry Potter 7',
+        'Alice in Wonderland',
+        'The Little Prince',
+        'Pride and Prejudice',
+        'The Great Gatsby',
+        '1984',
+        'The Book Thief'
+    ]
+
+    demoTitles.forEach(function (title) {
+
+        const book = {
+            id: getNewId(),
+            title: title,
+            price: getRandomPrice(),
+            imgUrl: 'default.png',
+            rating: getRandomRating()
+        }
+
+        gBooks.push(book)
+    })
+
+}
 
 function getBooks(filterBy = { title: '', minRating: 0 }, sortBy = { field: 'title', order: 'asc' }) {
 
@@ -86,7 +124,7 @@ function addBook(id, title, price) {
         id: id,
         title: title,
         price: price,
-        imgUrl: `${title}.jpg`,
+        imgUrl: `default.png`,
         rating: getRandomRating()
     }
 
@@ -110,6 +148,7 @@ function loadBooks() {
         gBooks = books
     } else {
         gBooks = gDemoBooks.slice()
+        addDemoBooks()
         _saveBooks()
     }
 }
