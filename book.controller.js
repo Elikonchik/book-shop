@@ -19,20 +19,28 @@ let gEditingRating = 0
 
 function onInit() {
 
-    const layout = getLayout()
+    gQueryOptions = getQueryOptionsFromParams()
 
-    if (layout === 'grid') {
+    if (gQueryOptions.layout === 'grid') {
         document.body.classList.add('grid')
+    } else {
+        document.body.classList.remove('grid')
     }
 
-    const filterBy = getFilterFromQueryParams()
+    document.querySelector('.title-filter').value =
+        gQueryOptions.filterBy.title
 
-    document.querySelector('.title-filter').value = filterBy.title
-    document.querySelector('.rating-filter').value = filterBy.minRating
+    document.querySelector('.rating-filter').value =
+        gQueryOptions.filterBy.minRating
 
-    const books = getBooks(filterBy)
+    document.querySelector('.sort-by').value =
+        gQueryOptions.sortBy.field
 
-    render(books)
+    document.querySelector(
+        `input[name="sort"][value="${gQueryOptions.sortBy.order}"]`
+    ).checked = true
+
+    render()
 }
 
 function render() {
@@ -87,6 +95,7 @@ function render() {
     document.querySelector('.cheap-count').innerText = stats.cheap
 
     renderPagination(books)
+    renderSortIndicators()
 }
 
 function renderPagination(books) {
@@ -116,6 +125,7 @@ function onNextPage() {
         gQueryOptions.pageIdx = 0
     }
 
+    setQueryParams()
     render()
 }
 
@@ -136,6 +146,7 @@ function onPrevPage() {
         gQueryOptions.pageIdx = pageCount - 1
     }
 
+    setQueryParams()
     render()
 }
 
@@ -261,12 +272,15 @@ function onSetLayout(layout) {
 
     setLayout(layout)
 
+    gQueryOptions.layout = layout
+
     if (layout === 'grid') {
         document.body.classList.add('grid')
     } else {
         document.body.classList.remove('grid')
     }
 
+    setQueryParams()
     render()
 }
 
@@ -336,7 +350,7 @@ function onFilter() {
 
     gQueryOptions.pageIdx = 0
 
-    setQueryParams(gQueryOptions.filterBy)
+    setQueryParams()
 
     render()
 }
@@ -356,34 +370,52 @@ function onClearFilter() {
     render()
 }
 
-function setQueryParams(filterBy) {
+function setQueryParams() {
 
     const params = new URLSearchParams()
 
-    if (filterBy.title) {
-        params.set('title', filterBy.title)
+    if (gQueryOptions.filterBy.title) {
+        params.set('title', gQueryOptions.filterBy.title)
     }
 
-    if (filterBy.minRating) {
-        params.set('minRating', filterBy.minRating)
+    if (gQueryOptions.filterBy.minRating) {
+        params.set('minRating', gQueryOptions.filterBy.minRating)
     }
 
-    const queryString = params.toString()
+    params.set('sort', gQueryOptions.sortBy.field)
+    params.set('order', gQueryOptions.sortBy.order)
+    params.set('page', gQueryOptions.pageIdx + 1)
 
-    const newUrl = queryString
-        ? `${location.pathname}?${queryString}`
-        : location.pathname
+    const layout = getLayout()
+    params.set('layout', layout)
 
-    history.pushState(null, '', newUrl)
+    history.pushState(
+        null,
+        '',
+        `${location.pathname}?${params.toString()}`
+    )
 }
 
-function getFilterFromQueryParams() {
+function getQueryOptionsFromParams() {
 
     const params = new URLSearchParams(location.search)
 
     return {
-        title: params.get('title') || '',
-        minRating: +params.get('minRating') || 0
+        filterBy: {
+            title: params.get('title') || '',
+            minRating: +params.get('minRating') || 0
+        },
+
+        sortBy: {
+            field: params.get('sort') || 'title',
+            order: params.get('order') || 'asc'
+        },
+
+        pageIdx: Math.max(0, (+params.get('page') || 1) - 1),
+
+        pageSize: 5,
+
+        layout: params.get('layout') || 'table'
     }
 }
 
@@ -397,5 +429,42 @@ function onSort() {
 
     gQueryOptions.pageIdx = 0
 
+    setQueryParams()
+
     render()
+}
+
+function onSortBy(field) {
+
+    if (gQueryOptions.sortBy.field === field) {
+
+        gQueryOptions.sortBy.order =
+            gQueryOptions.sortBy.order === 'asc'
+                ? 'desc'
+                : 'asc'
+
+    } else {
+
+        gQueryOptions.sortBy.field = field
+        gQueryOptions.sortBy.order = 'asc'
+    }
+
+    gQueryOptions.pageIdx = 0
+
+    setQueryParams()
+    render()
+}
+
+function renderSortIndicators() {
+
+    document.querySelector('.sort-title').innerText = ''
+    document.querySelector('.sort-price').innerText = ''
+    document.querySelector('.sort-rating').innerText = ''
+
+    const field = gQueryOptions.sortBy.field
+    const order = gQueryOptions.sortBy.order
+
+    const sign = order === 'asc' ? '+' : '−'
+
+    document.querySelector(`.sort-${field}`).innerText = ` ${sign}`
 }
