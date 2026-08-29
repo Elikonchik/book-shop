@@ -4,51 +4,30 @@
 
 body {
     margin: 0 auto 15px;
-    justify-items: center;
-}
-
-.addBookBtn {
-    background-color: bisque;
-
-    display: block;
-    margin: 20px;
-}
-
-table {
-    border-collapse: collapse;
-}
-
-th,
-td {
-    border: 1px solid black;
-    padding: 10px;
-}
-
-tbody,
-td {
-    font-size: 20px;
     font-family: Arial, sans-serif;
     text-align: center;
 
-}
-
-thead {
-    background-color: rgb(223, 222, 222);
-    font-size: 25px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-weight: bold;
-    text-align: center;
+    background-color: rgb(170, 142, 197);
 }
 
 button {
+    border: 3px solid rgb(62, 18, 102);
     border-radius: 10px;
-    border-width: 3px;
-    padding: 7px;
+    background-color: rgb(163, 127, 197);
+    color: rgb(62, 18, 102);
 
+    padding: 10px 15px;
+    margin: 5px;
+
+    cursor: pointer;
+
+    font-weight: bold;
     font-size: 15px;
     font-family: Arial, sans-serif;
-    font-weight: bold;
-    text-align: center;
+}
+
+button:hover {
+    opacity: 0.8;
 }
 
 .read {
@@ -66,80 +45,51 @@ button {
     border-color: rgb(128, 78, 3);
 }
 
-.book-details-modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    background-color: rgb(223, 222, 222);
-    border: 2px solid black;
-    border-radius: 10px;
-    padding: 20px;
-
-    min-width: 300px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-
-    justify-content: center;
-    text-align: center;
-
-    display: none;
-}
-
-.book-details {
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    text-align: center;
-}
-
-.close {
-    background-color: bisque;
-    margin: 10px;
-}
-
-.book-details img {
-    width: 150px;
-    height: 200px;
-    object-fit: cover;
-}
-
-.book-details h2 {
-    margin: 10px 0;
-}
-
-.success-msg {
-    font-size: 15px;
-    font-weight: bold;
-    color: blue;
-
-    padding: 10px;
-}
-
-.stats {
-    background-color: bisque;
-    display: flex;
-    justify-content: space-around;
-    padding: 15px;
-
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+.addBookBtn {
+    background-color: rgb(218, 190, 245)
 }
 
 .books-table {
-    display: table;
+    margin: 30px auto;
+    border-collapse: collapse;
+}
+
+.books-table th,
+.books-table td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+}
+
+.books-table th {
+    background-color: rgb(206, 165, 230);
+    font-size: 25px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.books-table td {
+    font-size: 20px;
+    background-color: rgb(232, 219, 243);
 }
 
 .books-grid {
     display: none;
+
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+
+    max-width: 900px;
+    margin: 20px auto;
 }
 
 .book-card {
     border: 2px solid black;
+    border-radius: 10px;
+
+    background-color: rgb(227, 197, 241);
+
     padding: 15px;
+
     text-align: center;
 }
 
@@ -157,18 +107,85 @@ body.grid .books-grid {
     display: grid;
 }
 
+.book-details-modal {
+    display: none;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    min-width: 300px;
+    padding: 20px;
+
+    background-color: rgb(223, 222, 222);
+
+    border: 2px solid black;
+    border-radius: 10px;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+
+    text-align: center;
+}
+
+.book-details {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+.book-details img {
+    width: 150px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.book-details h2 {
+    margin: 10px 0;
+}
+
 .add-book-modal {
     display: none;
 
     position: fixed;
     top: 50%;
     left: 50%;
+
     transform: translate(-50%, -50%);
 
-    background-color: rgb(223, 222, 222);
-    border: 2px solid black;
-    border-radius: 10px;
+    min-width: 300px;
     padding: 20px;
 
+    background-color: rgb(223, 222, 222);
+
+    border: 2px solid black;
+    border-radius: 10px;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+
     text-align: center;
+}
+
+.success-msg {
+    padding: 10px;
+
+    font-size: 15px;
+    font-weight: bold;
+
+    color: blueviolet;
+}
+
+.stats {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+
+    display: flex;
+    justify-content: space-around;
+
+    padding: 15px;
+
+    background-color: rgb(222, 196, 255);
 }
