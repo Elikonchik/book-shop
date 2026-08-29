@@ -1,5 +1,18 @@
 'use strict'
 
+let gQueryOptions = {
+    filterBy: {
+        title: '',
+        minRating: 0
+    },
+    sortBy: {
+        field: 'title',
+        order: 'asc'
+    },
+    pageIdx: 0,
+    pageSize: 5
+}
+
 function onInit() {
 
     const layout = getLayout()
@@ -18,13 +31,23 @@ function onInit() {
     render(books)
 }
 
-function render(books = getBooks()) {
+function render() {
+
+    const books = getBooks(
+        gQueryOptions.filterBy,
+        gQueryOptions.sortBy
+    )
+
+    const startIdx = gQueryOptions.pageIdx * gQueryOptions.pageSize
+    const endIdx = startIdx + gQueryOptions.pageSize
+
+    const pageBooks = books.slice(startIdx, endIdx)
 
     const elTbody = document.querySelector('tbody')
 
     let strHTML = ''
 
-    books.forEach(function (book) {
+    pageBooks.forEach(function (book) {
 
         strHTML += `
             <tr>
@@ -51,13 +74,65 @@ function render(books = getBooks()) {
         return
     }
 
+    renderGrid(pageBooks)
+
     const stats = getBookStats()
 
     document.querySelector('.expensive-count').innerText = stats.expensive
     document.querySelector('.average-count').innerText = stats.average
     document.querySelector('.cheap-count').innerText = stats.cheap
 
-    renderGrid(books)
+    renderPagination(books)
+}
+
+function renderPagination(books) {
+
+    const pageCount = Math.ceil(
+        books.length / gQueryOptions.pageSize
+    )
+
+    document.querySelector('.page-number').innerText =
+        gQueryOptions.pageIdx + 1
+}
+
+function onNextPage() {
+
+    const books = getBooks(
+        gQueryOptions.filterBy,
+        gQueryOptions.sortBy
+    )
+
+    const pageCount = Math.ceil(
+        books.length / gQueryOptions.pageSize
+    )
+
+    if (gQueryOptions.pageIdx < pageCount - 1) {
+        gQueryOptions.pageIdx++
+    } else {
+        gQueryOptions.pageIdx = 0
+    }
+
+    render()
+}
+
+function onPrevPage() {
+
+    const books = getBooks(
+        gQueryOptions.filterBy,
+        gQueryOptions.sortBy
+    )
+
+    const pageCount = Math.ceil(
+        books.length / gQueryOptions.pageSize
+    )
+
+    if (gQueryOptions.pageIdx > 0) {
+        gQueryOptions.pageIdx--
+    } else {
+        gQueryOptions.pageIdx = pageCount - 1
+    }
+
+    render()
 }
 
 onInit()
@@ -138,16 +213,6 @@ function onCloseModal() {
 function onFilterByTitle(txt) {
     const books = getBooks(txt)
     render(books)
-}
-
-function onClearFilter() {
-
-    document.querySelector('.title-filter').value = ''
-    document.querySelector('.rating-filter').value = '0'
-
-    history.pushState(null, '', location.pathname)
-
-    render()
 }
 
 function showSuccessMsg(msg) {
@@ -234,24 +299,29 @@ function onFilter() {
     const title = document.querySelector('.title-filter').value
     const minRating = +document.querySelector('.rating-filter').value
 
-    const field = document.querySelector('.sort-by').value
-    const order = document.querySelector('input[name="sort"]:checked').value
+    gQueryOptions.filterBy.title = title
+    gQueryOptions.filterBy.minRating = minRating
 
-    const filterBy = {
-        title: title,
-        minRating: minRating
-    }
+    gQueryOptions.pageIdx = 0
 
-    const sortBy = {
-        field: field,
-        order: order
-    }
+    setQueryParams(gQueryOptions.filterBy)
 
-    const books = getBooks(filterBy, sortBy)
+    render()
+}
 
-    setQueryParams(filterBy)
+function onClearFilter() {
 
-    render(books)
+    gQueryOptions.filterBy.title = ''
+    gQueryOptions.filterBy.minRating = 0
+
+    gQueryOptions.pageIdx = 0
+
+    document.querySelector('.title-filter').value = ''
+    document.querySelector('.rating-filter').value = '0'
+
+    history.pushState(null, '', location.pathname)
+
+    render()
 }
 
 function setQueryParams(filterBy) {
@@ -287,23 +357,13 @@ function getFilterFromQueryParams() {
 
 function onSort() {
 
-    const title = document.querySelector('.title-filter').value
-    const minRating = +document.querySelector('.rating-filter').value
-
     const field = document.querySelector('.sort-by').value
     const order = document.querySelector('input[name="sort"]:checked').value
 
-    const filterBy = {
-        title: title,
-        minRating: minRating
-    }
+    gQueryOptions.sortBy.field = field
+    gQueryOptions.sortBy.order = order
 
-    const sortBy = {
-        field: field,
-        order: order
-    }
+    gQueryOptions.pageIdx = 0
 
-    const books = getBooks(filterBy, sortBy)
-
-    render(books)
+    render()
 }

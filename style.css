@@ -189,3 +189,10 @@ body.grid .books-grid {
 
     background-color: rgb(222, 196, 255);
 }
+
+.page-number {
+    font-size: 25px;
+    font-weight: bold;
+
+    padding: 10px;
+}
