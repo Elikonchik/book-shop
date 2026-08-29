@@ -198,3 +198,17 @@ function updateRating(bookId, rating) {
 
     _saveBooks()
 }
+
+function updateBook(bookId, title, price) {
+
+    const book = gBooks.find(function (book) {
+        return book.id === bookId
+    })
+
+    if (!book) return
+
+    book.title = title
+    book.price = price
+
+    _saveBooks()
+}

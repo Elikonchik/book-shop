@@ -13,6 +13,8 @@ let gQueryOptions = {
     pageSize: 5
 }
 
+let gEditingBookId = null
+
 function onInit() {
 
     const layout = getLayout()
@@ -148,18 +150,24 @@ function onRemoveBook(bookId) {
 
 function onUpdateBook(bookId) {
 
-    const newPrice = +prompt('Enter new price:')
+    const book = getBookById(bookId)
 
-    updatePrice(bookId, newPrice)
+    gEditingBookId = bookId
 
-    render()
+    document.querySelector('.book-title-input').value = book.title
+    document.querySelector('.book-price-input').value = book.price
 
-    showSuccessMsg('Book updated successfully!')
+    document.querySelector('.book-edit-modal').style.display = 'block'
 }
 
 function onAddBook() {
 
-    document.querySelector('.add-book-modal').style.display = 'block'
+    gEditingBookId = null
+
+    document.querySelector('.book-title-input').value = ''
+    document.querySelector('.book-price-input').value = ''
+
+    document.querySelector('.book-edit-modal').style.display = 'block'
 }
 
 function onSaveBook() {
@@ -169,19 +177,22 @@ function onSaveBook() {
 
     if (!title || !price) {
         document.querySelector('.add-error-msg').innerText =
-            "Title and price are required!"
+            'Title and price are required!'
         return
     }
 
-    const id = getNewId()
-
-    addBook(id, title, price)
+    if (gEditingBookId) {
+        updateBook(gEditingBookId, title, price)
+        showSuccessMsg('Book updated successfully!')
+    } else {
+        const id = getNewId()
+        addBook(id, title, price)
+        showSuccessMsg('Book added successfully!')
+    }
 
     render()
 
-    onCloseAddModal()
-
-    showSuccessMsg('Book added successfully!')
+    onCloseEditModal()
 }
 
 function onShowDetails(bookId) {
@@ -208,6 +219,17 @@ function onShowDetails(bookId) {
 
 function onCloseModal() {
     document.querySelector('.book-details-modal').style.display = 'none'
+}
+
+function onCloseEditModal() {
+    document.querySelector('.book-edit-modal').style.display = 'none'
+
+    document.querySelector('.book-title-input').value = ''
+    document.querySelector('.book-price-input').value = ''
+
+    document.querySelector('.add-error-msg').innerText = ''
+
+    gEditingBookId = null
 }
 
 function onFilterByTitle(txt) {
@@ -267,16 +289,6 @@ function renderGrid(books) {
     })
 
     elGrid.innerHTML = strHTML
-}
-
-function onCloseAddModal() {
-
-    document.querySelector('.add-book-modal').style.display = 'none'
-
-    document.querySelector('.book-title-input').value = ''
-    document.querySelector('.book-price-input').value = ''
-
-    document.querySelector('.add-error-msg').innerText = ''
 }
 
 function onChangeRating(bookId, change) {

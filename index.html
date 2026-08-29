@@ -12,17 +12,19 @@
 
     <button class="addBookBtn" onclick="onAddBook()">Add a new book!</button>
 
-    <div class="add-book-modal">
-        <h2>Add New Book</h2>
+    <div class="book-edit-modal">
+
+        <h2>Book Details</h2>
 
         <input class="book-title-input" type="text" placeholder="Book title">
 
-        <input class="book-price-input" type="number" placeholder="Book price">
-
-        <button onclick="onSaveBook()">Add Book</button>
-        <button onclick="onCloseAddModal()">Cancel</button>
+        <input class="book-price-input" type="number" placeholder="Price">
 
         <div class="add-error-msg"></div>
+
+        <button onclick="onSaveBook()">Save</button>
+        <button onclick="onCloseEditModal()">Cancel</button>
+
     </div>
 
     <input type="text" placeholder="Search by title" oninput="onFilter()" class="title-filter">

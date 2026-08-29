@@ -144,7 +144,7 @@ body.grid .books-grid {
     margin: 10px 0;
 }
 
-.add-book-modal {
+.book-edit-modal {
     display: none;
 
     position: fixed;
