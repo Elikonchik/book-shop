@@ -41,6 +41,13 @@ function onInit() {
     ).checked = true
 
     render()
+
+    const params = new URLSearchParams(location.search)
+    const bookId = params.get('bookId')
+
+    if (bookId) {
+        onShowDetails(bookId)
+    }
 }
 
 function render() {
@@ -233,10 +240,33 @@ function onShowDetails(bookId) {
 `
 
     elModal.style.display = 'block'
+
+    const params = new URLSearchParams(location.search)
+    params.set('bookId', bookId)
+
+    history.pushState(
+        null,
+        '',
+        `${location.pathname}?${params.toString()}`
+    )
 }
 
 function onCloseModal() {
+
     document.querySelector('.book-details-modal').style.display = 'none'
+
+    const params = new URLSearchParams(location.search)
+    params.delete('bookId')
+
+    const queryString = params.toString()
+
+    history.pushState(
+        null,
+        '',
+        queryString
+            ? `${location.pathname}?${queryString}`
+            : location.pathname
+    )
 }
 
 function onCloseEditModal() {
