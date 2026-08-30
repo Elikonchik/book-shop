@@ -46,7 +46,11 @@ function onInit() {
     const bookId = params.get('bookId')
 
     if (bookId) {
-        onShowDetails(bookId)
+        const book = getBookById(bookId)
+
+        if (book) {
+            onShowDetails(bookId)
+        }
     }
 }
 
@@ -86,10 +90,14 @@ function render() {
 
     if (!books.length) {
         elTbody.innerHTML = `
-            <tr>
-                <td colspan="4">No matching books were found</td>
-            </tr>
-        `
+        <tr>
+            <td colspan="4">No matching books were found</td>
+        </tr>
+    `
+
+        document.querySelector('.books-grid').innerHTML = ''
+        document.querySelector('.pagination').innerHTML = ''
+
         return
     }
 
@@ -194,10 +202,24 @@ onInit()
 function onRemoveBook(bookId) {
 
     removeBook(bookId)
+
+    const books = getBooks(
+        gQueryOptions.filterBy,
+        gQueryOptions.sortBy
+    )
+
+    const pageCount = Math.ceil(
+        books.length / gQueryOptions.pageSize
+    )
+
+    if (gQueryOptions.pageIdx >= pageCount && pageCount > 0) {
+        gQueryOptions.pageIdx = pageCount - 1
+    }
+
+    setQueryParams()
     render()
 
     showSuccessMsg('Book deleted successfully!')
-
 }
 
 function onUpdateBook(bookId) {
@@ -205,16 +227,17 @@ function onUpdateBook(bookId) {
     const book = getBookById(bookId)
 
     gEditingBookId = bookId
-    gEditingRating = book.rating
 
     document.querySelector('.book-title-input').value = book.title
     document.querySelector('.book-price-input').value = book.price
 
+    gEditingRating = book.rating
     document.querySelector('.edit-rating').innerText =
         getRatingStars(gEditingRating)
 
-    document.querySelector('.book-details-modal').style.display = 'none'
+    document.querySelector('.edit-modal-title').innerText = 'Edit Book'
 
+    document.querySelector('.book-details-modal').style.display = 'none'
     document.querySelector('.book-edit-modal').style.display = 'block'
 }
 
@@ -225,14 +248,18 @@ function onAddBook() {
 
     document.querySelector('.book-title-input').value = ''
     document.querySelector('.book-price-input').value = ''
-    document.querySelector('.edit-rating').innerText = 'Unrated'
+
+    document.querySelector('.edit-rating').innerText =
+        getRatingStars(gEditingRating)
+
+    document.querySelector('.edit-modal-title').innerText = 'Add Book'
 
     document.querySelector('.book-edit-modal').style.display = 'block'
 }
 
 function onSaveBook() {
 
-    const title = document.querySelector('.book-title-input').value
+    const title = document.querySelector('.book-title-input').value.trim()
     const price = +document.querySelector('.book-price-input').value
 
     if (!title || !price) {
@@ -242,16 +269,26 @@ function onSaveBook() {
     }
 
     if (gEditingBookId) {
-        updateBook(gEditingBookId, title, price, gEditingRating)
+
+        updateBook(
+            gEditingBookId,
+            title,
+            price,
+            gEditingRating
+        )
+
         showSuccessMsg('Book updated successfully!')
+
     } else {
+
         const id = getNewId()
-        addBook(id, title, price, gEditingRating)
+
+        addBook(id, title, price)
+
         showSuccessMsg('Book added successfully!')
     }
 
     render()
-
     onCloseEditModal()
 }
 
@@ -310,6 +347,7 @@ function onCloseModal() {
 }
 
 function onCloseEditModal() {
+
     document.querySelector('.book-edit-modal').style.display = 'none'
 
     document.querySelector('.book-title-input').value = ''
@@ -318,13 +356,7 @@ function onCloseEditModal() {
     document.querySelector('.add-error-msg').innerText = ''
 
     gEditingBookId = null
-
     gEditingRating = 0
-}
-
-function onFilterByTitle(txt) {
-    const books = getBooks(txt)
-    render(books)
 }
 
 function showSuccessMsg(msg) {
@@ -395,8 +427,8 @@ function onChangeRating(bookId, change) {
 
     updateRating(bookId, newRating)
 
-    onShowDetails(bookId)
     render()
+    onShowDetails(bookId)
 }
 
 function onChangeEditRating(change) {
@@ -435,7 +467,7 @@ function onClearFilter() {
     document.querySelector('.title-filter').value = ''
     document.querySelector('.rating-filter').value = '0'
 
-    history.pushState(null, '', location.pathname)
+    setQueryParams()
 
     render()
 }
@@ -456,8 +488,7 @@ function setQueryParams() {
     params.set('order', gQueryOptions.sortBy.order)
     params.set('page', gQueryOptions.pageIdx + 1)
 
-    const layout = getLayout()
-    params.set('layout', layout)
+    params.set('layout', gQueryOptions.layout)
 
     history.pushState(
         null,
@@ -496,30 +527,29 @@ function onSort() {
 
     gQueryOptions.sortBy.field = field
     gQueryOptions.sortBy.order = order
-
     gQueryOptions.pageIdx = 0
 
     setQueryParams()
-
     render()
 }
 
 function onSortBy(field) {
 
     if (gQueryOptions.sortBy.field === field) {
-
         gQueryOptions.sortBy.order =
-            gQueryOptions.sortBy.order === 'asc'
-                ? 'desc'
-                : 'asc'
-
+            gQueryOptions.sortBy.order === 'asc' ? 'desc' : 'asc'
     } else {
-
         gQueryOptions.sortBy.field = field
         gQueryOptions.sortBy.order = 'asc'
     }
 
     gQueryOptions.pageIdx = 0
+
+    document.querySelector('.sort-by').value = field
+
+    document.querySelector(
+        `input[name="sort"][value="${gQueryOptions.sortBy.order}"]`
+    ).checked = true
 
     setQueryParams()
     render()

@@ -23,7 +23,6 @@ button {
 
     font-weight: bold;
     font-size: 15px;
-    font-family: Arial, sans-serif;
 }
 
 button:hover {
@@ -93,12 +92,6 @@ button:hover {
     text-align: center;
 }
 
-.book-card img {
-    width: 150px;
-    height: 200px;
-    object-fit: cover;
-}
-
 body.grid .books-table {
     display: none;
 }
@@ -107,50 +100,13 @@ body.grid .books-grid {
     display: grid;
 }
 
-.book-details-modal {
-    display: none;
-
-    position: fixed;
-    top: 50%;
-    left: 50%;
-
-    transform: translate(-50%, -50%);
-
-    min-width: 300px;
-    padding: 20px;
-
-    background-color: rgb(223, 222, 222);
-
-    border: 2px solid black;
-    border-radius: 10px;
-
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-
-    text-align: center;
-}
-
-.book-details {
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-}
-
-.book-details img {
-    width: 150px;
-    height: 200px;
-    object-fit: cover;
-}
-
-.book-details h2 {
-    margin: 10px 0;
-}
-
+.book-details-modal,
 .book-edit-modal {
     display: none;
 
     position: fixed;
     top: 50%;
     left: 50%;
-
     transform: translate(-50%, -50%);
 
     min-width: 300px;
@@ -164,6 +120,26 @@ body.grid .books-grid {
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
 
     text-align: center;
+}
+
+.book-details img,
+.book-card img {
+    width: 150px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.book-details-modal button,
+.book-edit-modal button {
+    min-width: 80px;
+}
+
+.book-details {
+    font-size: 16px;
+}
+
+.book-details h2 {
+    margin: 10px 0;
 }
 
 .success-msg {

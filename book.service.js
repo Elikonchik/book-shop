@@ -73,10 +73,13 @@ function addDemoBooks() {
 
         gBooks.push(book)
     })
-
+    _saveBooks()
 }
 
-function getBooks(filterBy = { title: '', minRating: 0 }, sortBy = { field: 'title', order: 'asc' }) {
+function getBooks(
+    filterBy = { title: '', minRating: 0 },
+    sortBy = { field: 'title', order: 'asc' }
+) {
 
     const regex = new RegExp(filterBy.title, 'i')
 
@@ -88,8 +91,8 @@ function getBooks(filterBy = { title: '', minRating: 0 }, sortBy = { field: 'tit
 
     filteredBooks.sort(function (book1, book2) {
 
-        let val1 = book1[sortBy.field]
-        let val2 = book2[sortBy.field]
+        const val1 = book1[sortBy.field]
+        const val2 = book2[sortBy.field]
 
         if (sortBy.order === 'asc') {
             return val1 > val2 ? 1 : -1
@@ -105,29 +108,21 @@ function removeBook(bookId) {
 
     const bookIdx = gBooks.findIndex(book => book.id === bookId)
 
-    // console.log(bookIdx)
+    if (bookIdx === -1) return
+
     gBooks.splice(bookIdx, 1)
 
     _saveBooks()
 }
 
-function updatePrice(bookId, newPrice) {
-
-    const bookIdx = gBooks.findIndex(book => book.id === bookId)
-
-    gBooks[bookIdx].price = newPrice
-
-    _saveBooks()
-}
-
-function addBook(id, title, price, rating) {
+function addBook(id, title, price) {
 
     const newBook = {
         id: id,
         title: title,
         price: price,
-        imgUrl: `${title}.jpg`,
-        rating: rating
+        imgUrl: `default.png`,
+        rating: 0
     }
 
     gBooks.push(newBook)
@@ -151,7 +146,6 @@ function loadBooks() {
     } else {
         gBooks = gDemoBooks.slice()
         addDemoBooks()
-        _saveBooks()
     }
 }
 
@@ -192,11 +186,11 @@ function getLayout() {
 
 function updateRating(bookId, rating) {
 
-    const bookIdx = gBooks.findIndex(function (book) {
-        return book.id === bookId
-    })
+    const book = getBookById(bookId)
 
-    gBooks[bookIdx].rating = rating
+    if (!book) return
+
+    book.rating = rating
 
     _saveBooks()
 }
