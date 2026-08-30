@@ -78,9 +78,11 @@ function addDemoBooks() {
 
 function getBooks(filterBy = { title: '', minRating: 0 }, sortBy = { field: 'title', order: 'asc' }) {
 
+    const regex = new RegExp(filterBy.title, 'i')
+
     const filteredBooks = gBooks.filter(function (book) {
 
-        return book.title.toLowerCase().includes(filterBy.title.toLowerCase()) &&
+        return regex.test(book.title) &&
             book.rating >= filterBy.minRating
     })
 
