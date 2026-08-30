@@ -111,8 +111,40 @@ function renderPagination(books) {
         books.length / gQueryOptions.pageSize
     )
 
-    document.querySelector('.page-number').innerText =
-        gQueryOptions.pageIdx + 1
+    const elPagination = document.querySelector('.pagination')
+
+    let strHTML = ''
+
+    strHTML += `
+        <button onclick="onPrevPage()">Prev</button>
+    `
+
+    for (let i = 0; i < pageCount; i++) {
+
+        const pageNum = i + 1
+
+        strHTML += `
+            <button 
+                class="${i === gQueryOptions.pageIdx ? 'active' : ''}"
+                onclick="onSetPage(${i})">
+                ${pageNum}
+            </button>
+        `
+    }
+
+    strHTML += `
+        <button onclick="onNextPage()">Next</button>
+    `
+
+    elPagination.innerHTML = strHTML
+}
+
+function onSetPage(pageIdx) {
+
+    gQueryOptions.pageIdx = pageIdx
+
+    setQueryParams()
+    render()
 }
 
 function onNextPage() {

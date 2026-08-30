@@ -196,3 +196,8 @@ body.grid .books-grid {
 
     padding: 10px;
 }
+
+.pagination .active {
+    background-color: rgb(62, 18, 102);
+    color: white;
+}
