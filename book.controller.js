@@ -177,8 +177,11 @@ function onUpdateBook(bookId) {
 
     document.querySelector('.book-title-input').value = book.title
     document.querySelector('.book-price-input').value = book.price
+
     document.querySelector('.edit-rating').innerText =
         getRatingStars(gEditingRating)
+
+    document.querySelector('.book-details-modal').style.display = 'none'
 
     document.querySelector('.book-edit-modal').style.display = 'block'
 }
@@ -231,12 +234,17 @@ function onShowDetails(bookId) {
     <img src="${book.imgUrl}" alt="${book.title}">
     <h2>${book.title}</h2>
     <p>Price: ${book.price}</p>
+    <p>Rating: ${getRatingStars(book.rating)}</p>
 
     <div class="rating">
         <button onclick="onChangeRating('${book.id}', -1)">−</button>
         <span>${getRatingStars(book.rating)}</span>
         <button onclick="onChangeRating('${book.id}', 1)">+</button>
     </div>
+
+    <button class="edit-details-btn" onclick="onUpdateBook('${book.id}')">
+        Edit
+    </button>
 `
 
     elModal.style.display = 'block'
